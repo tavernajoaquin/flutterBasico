@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:prueba/LearnFlutterPage.dart';
 
@@ -15,11 +13,11 @@ class HomePage extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (BuildContext context) {
-              return const LearnFlutterPage();
-            }),
-          );
+          //Navigator.of(context).push(
+           // MaterialPageRoute(builder: (BuildContext context) {
+            //  return const LearnFlutterPage();
+            //}),
+          //);
         },
         child: const Text('Aprende Flutter'),
       ),

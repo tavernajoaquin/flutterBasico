@@ -17,7 +17,6 @@ class _LearnFlutterPageState extends State<LearnFlutterPage> {
   bool isSwitch = false;  //solo puede ser verdadero o falso
   bool? isChecked = false; //solo puede ser verdadero o falso o null
 
-
   //Instancia del reproductor de efectos
   final soundEffect = BetterSoundEffect(  );
 
@@ -54,6 +53,7 @@ class _LearnFlutterPageState extends State<LearnFlutterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /*
       appBar: AppBar(
         title: const Text('Aprende Flutter'),
         automaticallyImplyLeading: false,
@@ -62,8 +62,8 @@ class _LearnFlutterPageState extends State<LearnFlutterPage> {
               Navigator.of(context).pop(); //pop borra la pagian que estaba
             },
             icon: const Icon(Icons.arrow_back_ios)),
-        actions: [IconButton(onPressed: (){debugPrint('Info');}, icon: Icon(Icons.info_outline))],
-      ),
+        actions: [IconButton(onPressed: (){debugPrint('Info');}, icon: const Icon(Icons.info_outline))],
+      ),*/
       body: SingleChildScrollView(
         child: Column(children: [
           Image.asset('assets/perrito.jpg',),
@@ -85,7 +85,7 @@ class _LearnFlutterPageState extends State<LearnFlutterPage> {
           ),
           ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  primary: isSwitch ? Colors.blue : Colors.red
+                  backgroundColor: isSwitch ? Colors.blue : Colors.red
               ),
               onPressed: () {
                 debugPrint('Boton Eleveado');
@@ -103,14 +103,14 @@ class _LearnFlutterPageState extends State<LearnFlutterPage> {
           }, icon: const Icon(Icons.android),),
           ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  primary: isSwitch ? Colors.blue : Colors.red
+                  backgroundColor: isSwitch ? Colors.blue : Colors.red
               ),
               onPressed: () {
                 debugPrint('Boton Eleveado');
               },
               child: const Text('Boton Eleveado')),ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  primary: isSwitch ? Colors.blue : Colors.red
+                  backgroundColor: isSwitch ? Colors.blue : Colors.red
               ),
               onPressed: () {
                 debugPrint('Boton Eleveado');

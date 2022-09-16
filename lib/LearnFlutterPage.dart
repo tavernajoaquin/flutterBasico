@@ -2,6 +2,10 @@
 
 import 'package:flutter/material.dart';
 
+import 'dart:async';
+
+import 'package:better_sound_effect/better_sound_effect.dart';
+
 class LearnFlutterPage extends StatefulWidget {
   const LearnFlutterPage({Key? key}) : super(key: key);
 
@@ -12,6 +16,41 @@ class LearnFlutterPage extends StatefulWidget {
 class _LearnFlutterPageState extends State<LearnFlutterPage> {
   bool isSwitch = false;  //solo puede ser verdadero o falso
   bool? isChecked = false; //solo puede ser verdadero o falso o null
+
+
+  //Instancia del reproductor de efectos
+  final soundEffect = BetterSoundEffect(  );
+
+  int? soundId;
+  int? soundId2;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() async {
+      soundId = await soundEffect.loadAssetAudioFile("assets/oink-mp3.mp3");
+      debugPrint('reproduciendo mp3 oink');
+    });
+    Future.microtask(() async {
+      soundId2 = await soundEffect.loadAssetAudioFile("assets/beep.mp3");
+      debugPrint('reproduciendo mp3 beep');
+    });
+  }
+
+  @override
+  void dispose() {
+    if (soundId != null) {
+      soundEffect.release(soundId!);
+    }
+    if (soundId2 != null) {
+      soundEffect.release(soundId2!);
+    }
+    super.dispose();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +66,7 @@ class _LearnFlutterPageState extends State<LearnFlutterPage> {
       ),
       body: SingleChildScrollView(
         child: Column(children: [
-          Image.asset('ímage/perrito.jpg',),
+          Image.asset('assets/perrito.jpg',),
           const SizedBox(height: 10,),
           const Divider(
             color: Colors.black,
@@ -44,6 +83,40 @@ class _LearnFlutterPageState extends State<LearnFlutterPage> {
               ),
             ),
           ),
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: isSwitch ? Colors.blue : Colors.red
+              ),
+              onPressed: () {
+                debugPrint('Boton Eleveado');
+              },
+              child: const Text('Boton Eleveado')),
+          IconButton(onPressed: () {
+            if (soundId != null) {
+              soundEffect.play(soundId!);
+            }
+          }, icon: const Icon(Icons.play_arrow_outlined),),
+          IconButton(onPressed: () {
+            if (soundId2 != null) {
+              soundEffect.play(soundId2!);
+            }
+          }, icon: const Icon(Icons.android),),
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: isSwitch ? Colors.blue : Colors.red
+              ),
+              onPressed: () {
+                debugPrint('Boton Eleveado');
+              },
+              child: const Text('Boton Eleveado')),ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: isSwitch ? Colors.blue : Colors.red
+              ),
+              onPressed: () {
+                debugPrint('Boton Eleveado');
+              },
+              child: const Text('Boton Eleveado')),
+
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               primary: isSwitch ? Colors.blue : Colors.red
@@ -98,4 +171,6 @@ class _LearnFlutterPageState extends State<LearnFlutterPage> {
       ),
     );
   }
+
+
 }

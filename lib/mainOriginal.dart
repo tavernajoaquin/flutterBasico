@@ -1,8 +1,9 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:prueba/homePage.dart';
 import 'package:prueba/profile_page.dart';
+import 'package:prueba/login.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -35,8 +36,11 @@ class _RootPageState extends State<RootPage> {
   int currentPage = 0;
   List<Widget> pages = const [
     HomePage(),
-    ProfilePage()
+    //ProfilePage(),
+    LoginWidget()
   ];
+
+
   @override
   Widget build(BuildContext context) {
     //Scaffold digamos q es el html

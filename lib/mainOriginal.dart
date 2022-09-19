@@ -4,9 +4,25 @@ import 'package:prueba/homePage.dart';
 import 'package:prueba/profile_page.dart';
 import 'package:prueba/login.dart';
 import 'package:prueba/LearnFlutterPage.dart';
+import 'package:prueba/camara.dart';
+import 'package:camera/camera.dart';
 
+/*
 
+*************MAIN ORIGINAL*****************
 void main() {
+  runApp(const MyApp());
+}
+*/
+//Listado de camaras global
+List<CameraDescription>? cameras;
+//Future indica que va a haber una promesa que no va a retornar nada
+//async que en algun momento hay que esperar (await) algo
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  //esperar la respuesta de las camaras disponibles
+  cameras = await availableCameras();
+  //correr la aplicacion
   runApp(const MyApp());
 }
 
@@ -35,12 +51,12 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   //declaracion de variables
   int currentPage = 0;
-  List<Widget> pages = const [
+  List<Widget> pages =  [
     HomePage(),
     ProfilePage(),
     LearnFlutterPage(),
     LoginWidget(),
-
+    Camara(),
   ];
 
 
@@ -93,7 +109,12 @@ class _RootPageState extends State<RootPage> {
               Navigator.pop(context);
             }),
             ListTile(title: const Text("Camara"), onTap: () {
-
+              setState(() {
+                currentPage = 4;
+              });
+              debugPrint(
+                  'currentPage: $currentPage');
+              Navigator.pop(context);
             }),
             ListTile(title: const Text("Menu 6"), onTap: () => null),
             ListTile(title: const Text("Menu 7"), onTap: () => null),

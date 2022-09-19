@@ -1,50 +1,84 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
+//importa main para poder usar el listado de camaras
+import 'mainOriginal.dart';
 
-
-
-class Camara extends StatefulWidget {
-
-  const Camara({
-    super.key,
-    required this.camera,
-  });
-
-  final CameraDescription camera;
-  @override
-  State<Camara> createState() => _CamaraState();
+//Stateless widget que le da la posicion a Square que es el widget de la camara
+class Camara extends StatelessWidget {
+  build(context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 100),
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomRight,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              child: Container(
+                width: 500,
+                height: 500,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1, color: Colors.grey),
+                ),
+                // margin: EdgeInsets.only(bottom: 30),
+                child: Square(),
+              ),
+            ),
+          ),
+          // Square(),
+        ],
+      ),
+    );
+  }
 }
 
-class _CamaraState extends State<Camara> {
+class Square extends StatefulWidget {
+  final color;
+  final size;
 
-  late CameraController _controller;
-  late Future<void> _initializeControllerFuture;
+  Square({this.color, this.size});
+
+  @override
+  _SquareState createState() => _SquareState();
+}
+
+class _SquareState extends State<Square> {
+  late CameraController controller;
 
   @override
   void initState() {
     super.initState();
-    // To display the current output from the Camera,
-    // create a CameraController.
-    _controller = CameraController(
-      // Get a specific camera from the list of available cameras.
-      widget.camera,
-      // Define the resolution to use.
-      ResolutionPreset.medium,
-    );
-
-    // Next, initialize the controller. This returns a Future.
-    _initializeControllerFuture = _controller.initialize();
+    //setea a la camara de la posicion 0 de la lista como variable controller
+    controller = CameraController(cameras![0], ResolutionPreset.medium);
+    //inicializa la camara, si retorna algo distinto a montado, no retorna nada
+    controller.initialize().then((_) {
+      //el then esta porque initialize de vuelve una promesa,
+      // la cual devuelve CameraException si falla
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+    });
   }
 
+  //libera los recursos de la camara
   @override
   void dispose() {
-    // Dispose of the controller when the widget is disposed.
-    _controller.dispose();
+    controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    //si la camara no esta inicializada, retornar un contenedor vacio
+    if (!controller.value.isInitialized) {
+      return Container();
+    }
+    return AspectRatio(
+        aspectRatio: controller.value.aspectRatio,
+        //Camera preview muestra lo que esta tomando la camara
+        child: CameraPreview(controller));
   }
 }
